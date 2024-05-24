@@ -1,4 +1,5 @@
 "use client";
+import { Separator } from "@/components/ui/separator";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
 
@@ -32,14 +33,20 @@ const Home = (props: Props) => {
         <div className="border-2 max-w-xs flex flex-col gap-2 justify-between shadow-md rounded p-4">
           {/* Top section */}
           <div className="flex flex-col gap-2">
+            
             <Separator />
           </div>
 
           {/* Middle section */}
-          <div className="flex flex-col gap-2"></div>
-          
+          <div className="flex flex-col gap-2">
+            <Separator />
+            <Separator />
+          </div>
+
           {/* Bottom section */}
-          <div className="flex flex-col gap-2"></div>
+          <div className="flex flex-col gap-2">
+            <Separator />
+          </div>
         </div>
       </div>
     </div>
