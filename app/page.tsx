@@ -2,7 +2,7 @@
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Camera, FlipHorizontal, Video } from "lucide-react";
+import { Camera, FlipHorizontal, PersonStanding, Video } from "lucide-react";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
 
@@ -76,11 +76,11 @@ const Home = (props: Props) => {
             <Separator className="my-2" />
 
             <Button
-              variant={'default'}
+              variant={autoRecordEnable ? 'destructive' : 'outline'}
               size={'icon'}
               onClick={() => {toggleAutoRecord}}
             >
-
+              {autoRecordEnable ? "Show animation" : <PersonStanding />}
             </Button>
           </div>
 
@@ -110,7 +110,14 @@ const Home = (props: Props) => {
   }
 
   function toggleAutoRecord () {
-
+    if (autoRecordEnable) {
+      setautoRecordEnable(false)
+      // show toast to user to notify te change
+    }
+    else {
+      setautoRecordEnable(true)
+      // show toast to user to notify te change
+    }
   }
 
 };
