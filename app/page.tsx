@@ -2,7 +2,7 @@
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { FlipHorizontal } from "lucide-react";
+import { Camera, FlipHorizontal, Video } from "lucide-react";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
 
@@ -14,6 +14,7 @@ const Home = (props: Props) => {
 
   // State Variables
   const [mirrored, setmirrored] = useState<boolean>(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
 
   return (
     <div className="flex h-screen">
@@ -58,12 +59,20 @@ const Home = (props: Props) => {
             <Button
               variant={'outline'}
               size={'icon'}
-              onClick={userPrompt}
+              onClick={userPromptScreenshot}
             >
-
+              <Camera /> 
             </Button>
 
             <Separator />
+
+            <Button
+              variant={'outline'}
+              size={'icon'}
+              onClick={userPromptRecord}
+            >
+              <Video /> 
+            </Button>
           </div>
 
           {/* Bottom section */}
@@ -76,6 +85,11 @@ const Home = (props: Props) => {
   );
 
   // Handler Function
+  function userPromptScreenshot() {
+    // take picture
+
+    // save it to downloads
+  }
 
 };
 
