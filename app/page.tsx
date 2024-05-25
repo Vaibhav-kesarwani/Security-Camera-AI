@@ -15,6 +15,7 @@ const Home = (props: Props) => {
   // State Variables
   const [mirrored, setmirrored] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [autoRecordEnable, setautoRecordEnable] = useState<boolean>(false)
 
   return (
     <div className="flex h-screen">
@@ -54,7 +55,7 @@ const Home = (props: Props) => {
 
           {/* Middle section */}
           <div className="flex flex-col gap-2">
-            <Separator />
+            <Separator className="my-2" />
 
             <Button
               variant={'outline'}
@@ -64,20 +65,28 @@ const Home = (props: Props) => {
               <Camera /> 
             </Button>
 
-            <Separator />
-
             <Button
-              variant={'outline'}
+              variant={isRecording ? 'destructive' : 'outline'}
               size={'icon'}
               onClick={userPromptRecord}
             >
               <Video /> 
             </Button>
+
+            <Separator className="my-2" />
+
+            <Button
+              variant={'default'}
+              size={'icon'}
+              onClick={() => {toggleAutoRecord}}
+            >
+
+            </Button>
           </div>
 
           {/* Bottom section */}
           <div className="flex flex-col gap-2">
-            <Separator />
+            <Separator className="my-2" />
           </div>
         </div>
       </div>
@@ -85,10 +94,23 @@ const Home = (props: Props) => {
   );
 
   // Handler Function
-  function userPromptScreenshot() {
+  function userPromptScreenshot () {
     // take picture
 
     // save it to downloads
+  }
+
+  function userPromptRecord () {
+    // check if recording
+      // then stop recording
+      // and save to downloads
+
+    // if not recording 
+      // start recording 
+  }
+
+  function toggleAutoRecord () {
+
   }
 
 };
