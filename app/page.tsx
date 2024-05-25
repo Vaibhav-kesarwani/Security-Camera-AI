@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Camera, FlipHorizontal, PersonStanding, Video } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { Rings } from "react-loader-spinner";
 import Webcam from "react-webcam";
 import { toast } from "sonner";
 
@@ -82,7 +83,7 @@ const Home = (props: Props) => {
               size={"icon"}
               onClick={toggleAutoRecord}
             >
-              {autoRecordEnable ? "Show animation" : <PersonStanding />}
+              {autoRecordEnable ? <Rings color="white" height={45} /> : <PersonStanding />}
             </Button>
           </div>
 
