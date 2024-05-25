@@ -1,6 +1,8 @@
 "use client";
 import { ModeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { FlipHorizontal } from "lucide-react";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
 
@@ -35,12 +37,32 @@ const Home = (props: Props) => {
           {/* Top section */}
           <div className="flex flex-col gap-2">
             <ModeToggle />
-            <Separator />
+
+            <Button 
+              variant={'outline'} 
+              size={'icon'}
+              onClick={() => {
+                setmirrored((prev) => !prev)
+              }}
+            >
+              <FlipHorizontal />
+            </Button>
+            
+            <Separator className="my-2"/>
           </div>
 
           {/* Middle section */}
           <div className="flex flex-col gap-2">
             <Separator />
+
+            <Button
+              variant={'outline'}
+              size={'icon'}
+              onClick={userPrompt}
+            >
+
+            </Button>
+
             <Separator />
           </div>
 
@@ -52,6 +74,9 @@ const Home = (props: Props) => {
       </div>
     </div>
   );
+
+  // Handler Function
+
 };
 
 export default Home;
