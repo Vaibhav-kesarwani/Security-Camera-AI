@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { Camera, FlipHorizontal, PersonStanding, Video } from "lucide-react";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -15,21 +16,22 @@ const Home = (props: Props) => {
   // State Variables
   const [mirrored, setmirrored] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [autoRecordEnable, setautoRecordEnable] = useState<boolean>(false)
+  const [autoRecordEnable, setautoRecordEnable] = useState<boolean>(false);
 
   return (
     <div className="flex h-screen">
       {/* Left divison - webcam and Canvas */}
       <div className="relative">
         <div className="relative h-screen w-full">
-          <Webcam ref={webcamRef} 
-            mirrored={mirrored} 
+          <Webcam
+            ref={webcamRef}
+            mirrored={mirrored}
             className="h-full w-full object-contain p-2"
           />
-          <canvas ref={canvasRef}
-            className="absolute top-0 left-0 h-full w-full object-contain" 
-          >
-          </canvas>
+          <canvas
+            ref={canvasRef}
+            className="absolute top-0 left-0 h-full w-full object-contain"
+          ></canvas>
         </div>
       </div>
       {/* Right division - container for button panel and wiki section */}
@@ -40,17 +42,17 @@ const Home = (props: Props) => {
           <div className="flex flex-col gap-2">
             <ModeToggle />
 
-            <Button 
-              variant={'outline'} 
-              size={'icon'}
+            <Button
+              variant={"outline"}
+              size={"icon"}
               onClick={() => {
-                setmirrored((prev) => !prev)
+                setmirrored((prev) => !prev);
               }}
             >
               <FlipHorizontal />
             </Button>
-            
-            <Separator className="my-2"/>
+
+            <Separator className="my-2" />
           </div>
 
           {/* Middle section */}
@@ -58,27 +60,27 @@ const Home = (props: Props) => {
             <Separator className="my-2" />
 
             <Button
-              variant={'outline'}
-              size={'icon'}
+              variant={"outline"}
+              size={"icon"}
               onClick={userPromptScreenshot}
             >
-              <Camera /> 
+              <Camera />
             </Button>
 
             <Button
-              variant={isRecording ? 'destructive' : 'outline'}
-              size={'icon'}
+              variant={isRecording ? "destructive" : "outline"}
+              size={"icon"}
               onClick={userPromptRecord}
             >
-              <Video /> 
+              <Video />
             </Button>
 
             <Separator className="my-2" />
 
             <Button
-              variant={autoRecordEnable ? 'destructive' : 'outline'}
-              size={'icon'}
-              onClick={() => {toggleAutoRecord}}
+              variant={autoRecordEnable ? "destructive" : "outline"}
+              size={"icon"}
+              onClick={toggleAutoRecord}
             >
               {autoRecordEnable ? "Show animation" : <PersonStanding />}
             </Button>
@@ -94,32 +96,30 @@ const Home = (props: Props) => {
   );
 
   // Handler Function
-  function userPromptScreenshot () {
+  function userPromptScreenshot() {
     // take picture
-
     // save it to downloads
   }
 
-  function userPromptRecord () {
+  function userPromptRecord() {
     // check if recording
-      // then stop recording
-      // and save to downloads
-
-    // if not recording 
-      // start recording 
+    // then stop recording
+    // and save to downloads
+    // if not recording
+    // start recording
   }
 
-  function toggleAutoRecord () {
+  function toggleAutoRecord() {
     if (autoRecordEnable) {
-      setautoRecordEnable(false)
+      setautoRecordEnable(false);
       // show toast to user to notify te change
-    }
-    else {
-      setautoRecordEnable(true)
+      toast("Autorecord Disable");
+    } else {
+      setautoRecordEnable(true);
       // show toast to user to notify te change
+      toast("Autorecord Enable");
     }
   }
-
 };
 
 export default Home;
