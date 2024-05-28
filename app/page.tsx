@@ -20,6 +20,7 @@ const Home = (props: Props) => {
   const [mirrored, setmirrored] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [autoRecordEnable, setautoRecordEnable] = useState<boolean>(false);
+  const [volume, setVolume] = useState(0);
 
   return (
     <div className="flex h-screen">
@@ -105,6 +106,11 @@ const Home = (props: Props) => {
                   max={1}
                   min={0}
                   step={0.2}
+                  defaultValue={[volume]}
+                  onValueCommit={(value) => {
+                    setVolume(value[0]);
+                    beep(value[0]);
+                  }}
                 />
               </PopoverContent>
             </Popover>
