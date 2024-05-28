@@ -3,6 +3,7 @@ import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
 import { Camera, FlipHorizontal, PersonStanding, Video, Volume2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Rings } from "react-loader-spinner";
@@ -100,7 +101,11 @@ const Home = (props: Props) => {
               </PopoverTrigger>
               
               <PopoverContent>
-                
+                <Slider
+                  max={1}
+                  min={0}
+                  step={0.2}
+                />
               </PopoverContent>
             </Popover>
           </div>
