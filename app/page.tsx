@@ -1,9 +1,10 @@
 "use client";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger, PopoverTrigger } from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { beep } from "@/utils/audio";
 import { Camera, FlipHorizontal, PersonStanding, Video, Volume2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Rings } from "react-loader-spinner";
@@ -95,7 +96,7 @@ const Home = (props: Props) => {
             <Separator className="my-2" />
 
             <Popover>
-              <PopoverTrigger>
+              <PopoverTrigger asChild>
                 <Button variant={"outline"} size={"icon"}>
                   <Volume2 />
                 </Button>
