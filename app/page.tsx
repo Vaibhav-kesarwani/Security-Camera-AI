@@ -1,8 +1,9 @@
 "use client";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Camera, FlipHorizontal, PersonStanding, Video } from "lucide-react";
+import { Camera, FlipHorizontal, PersonStanding, Video, Volume2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Rings } from "react-loader-spinner";
 import Webcam from "react-webcam";
@@ -90,6 +91,18 @@ const Home = (props: Props) => {
           {/* Bottom section */}
           <div className="flex flex-col gap-2">
             <Separator className="my-2" />
+
+            <Popover>
+              <PopoverTrigger>
+                <Button variant={"outline"} size={"icon"}>
+                  <Volume2 />
+                </Button>
+              </PopoverTrigger>
+              
+              <PopoverContent>
+                
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>
