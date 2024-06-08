@@ -152,7 +152,7 @@ const HomePage = (props: Props) => {
       <div className="flex flex-row flex-1">
         <div className="border-primary/5 border-2 max-w-xs flex flex-col gap-2 justify-between shadow-md rounded-md p-4">
           {/* top secion  */}
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2"> */}
             <ModeToggle />
             <Button
               variant={"outline"}
