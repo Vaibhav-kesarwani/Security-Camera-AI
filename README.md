@@ -18,7 +18,7 @@ Our web application is designed to significantly enhance your security by detect
 
 ## How It Works:
 
-- **Setup:** Begin by open the [URL](security-camera-ai.vercel.app) on your computer. Position your camera to monitor the desired area, such as entry points, hallways, or any other vulnerable spots.
+- **Setup:** Begin by open the [Web App](security-camera-ai.vercel.app) on your computer. Position your camera to monitor the desired area, such as entry points, hallways, or any other vulnerable spots.
 
 - **Monitoring:** Once set up, the app continuously monitors the designated area for any unusual activity. The motion detection system is always active, ensuring constant vigilance.
 
