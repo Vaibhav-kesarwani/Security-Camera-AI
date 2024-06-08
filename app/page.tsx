@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 import { ModeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
