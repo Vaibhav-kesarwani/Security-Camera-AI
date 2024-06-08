@@ -8,11 +8,11 @@ const SocialMediaLinks = () => {
             <a href="https://github.com/Vaibhav-kesarwani" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faGithub} size="2x" />
             </a>
-            <a href="https://vaibhavkesarwani.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faPhoenixFramework} size="2x" />
-            </a>
             <a href="https://www.linkedin.com/in/vaibhav-kesarwani-9b5b35252/" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faLinkedin} size="2x" />
+            </a>
+            <a href="https://vaibhavkesarwani.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faPhoenixFramework} size="2x" />
             </a>
         </div>
     );
