@@ -11,31 +11,129 @@ import { Slider } from "@/components/ui/slider";
 import { beep } from "@/utils/audio";
 import {
   Camera,
+  Divide,
   FlipHorizontal,
+  MoonIcon,
   PersonStanding,
+  SunIcon,
   Video,
   Volume2,
 } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Rings } from "react-loader-spinner";
 import Webcam from "react-webcam";
 import { toast } from "sonner";
+import * as cocossd from "@tensorflow-models/coco-ssd";
+import "@tensorflow/tfjs-backend-cpu";
+import "@tensorflow/tfjs-backend-webgl";
+import { DetectedObject, ObjectDetection } from "@tensorflow-models/coco-ssd";
+import { drawOnCanvas } from "@/utils/draw";
+import SocialMediaLinks from "@/components/social-links";
 
 type Props = {};
 
-const Home = (props: Props) => {
+let interval: any = null;
+let stopTimeout: any = null;
+const HomePage = (props: Props) => {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // State Variables
-  const [mirrored, setmirrored] = useState<boolean>(false);
+  // state
+  const [mirrored, setMirrored] = useState<boolean>(true);
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [autoRecordEnable, setautoRecordEnable] = useState<boolean>(false);
-  const [volume, setVolume] = useState(0);
+  const [autoRecordEnabled, setAutoRecordEnabled] = useState<boolean>(false);
+  const [volume, setVolume] = useState(0.8);
+  const [model, setModel] = useState<ObjectDetection>();
+  const [loading, setLoading] = useState(false);
+
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
+  // initialize the media recorder
+  useEffect(() => {
+    if (webcamRef && webcamRef.current) {
+      const stream = (webcamRef.current.video as any).captureStream();
+      if (stream) {
+        mediaRecorderRef.current = new MediaRecorder(stream);
+
+        mediaRecorderRef.current.ondataavailable = (e) => {
+          if (e.data.size > 0) {
+            const recordedBlob = new Blob([e.data], { type: "video" });
+            const videoURL = URL.createObjectURL(recordedBlob);
+
+            const a = document.createElement("a");
+            a.href = videoURL;
+            a.download = `${formatDate(new Date())}.webm`;
+            a.click();
+          }
+        };
+        mediaRecorderRef.current.onstart = (e) => {
+          setIsRecording(true);
+        };
+        mediaRecorderRef.current.onstop = (e) => {
+          setIsRecording(false);
+        };
+      }
+    }
+  }, [webcamRef]);
+
+  useEffect(() => {
+    setLoading(true);
+    initModel();
+  }, []);
+
+  // loads model
+  // set it in a state varaible
+  async function initModel() {
+    const loadedModel: ObjectDetection = await cocossd.load({
+      base: "mobilenet_v2",
+    });
+    setModel(loadedModel);
+  }
+
+  useEffect(() => {
+    if (model) {
+      setLoading(false);
+    }
+  }, [model]);
+
+  async function runPrediction() {
+    if (
+      model &&
+      webcamRef.current &&
+      webcamRef.current.video &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      const predictions: DetectedObject[] = await model.detect(
+        webcamRef.current.video
+      );
+
+      resizeCanvas(canvasRef, webcamRef);
+      drawOnCanvas(mirrored, predictions, canvasRef.current?.getContext("2d"));
+
+      let isPerson: boolean = false;
+      if (predictions.length > 0) {
+        predictions.forEach((prediction) => {
+          isPerson = prediction.class === "person";
+        });
+
+        if (isPerson && autoRecordEnabled) {
+          startRecording(true);
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    interval = setInterval(() => {
+      runPrediction();
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [webcamRef.current, model, mirrored, autoRecordEnabled, runPrediction]);
 
   return (
     <div className="flex h-screen">
-      {/* Left divison - webcam and Canvas */}
+      {/* Left division - webcam and Canvas  */}
       <div className="relative">
         <div className="relative h-screen w-full">
           <Webcam
@@ -49,19 +147,18 @@ const Home = (props: Props) => {
           ></canvas>
         </div>
       </div>
-      {/* Right division - container for button panel and wiki section */}
+
+      {/* Righ division - container for buttion panel and wiki secion  */}
       <div className="flex flex-row flex-1">
-        <div className="border-primary" />
-        <div className="border-2 max-w-xs flex flex-col gap-2 justify-between shadow-md rounded p-4">
-          {/* Top section */}
+        <div className="border-primary/5 border-2 max-w-xs flex flex-col gap-2 justify-between shadow-md rounded-md p-4">
+          {/* top secion  */}
           <div className="flex flex-col gap-2">
             <ModeToggle />
-
             <Button
               variant={"outline"}
               size={"icon"}
               onClick={() => {
-                setmirrored((prev) => !prev);
+                setMirrored((prev) => !prev);
               }}
             >
               <FlipHorizontal />
@@ -70,10 +167,9 @@ const Home = (props: Props) => {
             <Separator className="my-2" />
           </div>
 
-          {/* Middle section */}
+          {/* Middle section  */}
           <div className="flex flex-col gap-2">
             <Separator className="my-2" />
-
             <Button
               variant={"outline"}
               size={"icon"}
@@ -81,7 +177,6 @@ const Home = (props: Props) => {
             >
               <Camera />
             </Button>
-
             <Button
               variant={isRecording ? "destructive" : "outline"}
               size={"icon"}
@@ -89,23 +184,20 @@ const Home = (props: Props) => {
             >
               <Video />
             </Button>
-
             <Separator className="my-2" />
-
             <Button
-              variant={autoRecordEnable ? "destructive" : "outline"}
+              variant={autoRecordEnabled ? "destructive" : "outline"}
               size={"icon"}
               onClick={toggleAutoRecord}
             >
-              {autoRecordEnable ? (
+              {autoRecordEnabled ? (
                 <Rings color="white" height={45} />
               ) : (
                 <PersonStanding />
               )}
             </Button>
           </div>
-
-          {/* Bottom section */}
+          {/* Bottom Secion  */}
           <div className="flex flex-col gap-2">
             <Separator className="my-2" />
 
@@ -115,16 +207,15 @@ const Home = (props: Props) => {
                   <Volume2 />
                 </Button>
               </PopoverTrigger>
-
               <PopoverContent>
                 <Slider
                   max={1}
                   min={0}
                   step={0.2}
                   defaultValue={[volume]}
-                  onValueCommit={(value) => {
-                    setVolume(value[0]);
-                    beep(value[0]);
+                  onValueCommit={(val) => {
+                    setVolume(val[0]);
+                    beep(val[0]);
                   }}
                 />
               </PopoverContent>
@@ -136,32 +227,77 @@ const Home = (props: Props) => {
           <RenderFeatureHighlightsSection />
         </div>
       </div>
+      {loading && (
+        <div className="z-50 absolute w-full h-full flex items-center justify-center bg-primary-foreground">
+          Getting things ready . . . <Rings height={50} color="red" />
+        </div>
+      )}
     </div>
   );
 
-  // Handler Function
+  // handler functions
+
   function userPromptScreenshot() {
     // take picture
+    if (!webcamRef.current) {
+      toast("Camera not found. Please refresh");
+    } else {
+      const imgSrc = webcamRef.current.getScreenshot();
+      console.log(imgSrc);
+      const blob = base64toBlob(imgSrc);
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${formatDate(new Date())}.png`;
+      a.click();
+    }
     // save it to downloads
   }
 
   function userPromptRecord() {
-    // check if recording
-    // then stop recording
-    // and save to downloads
-    // if not recording
-    // start recording
+    if (!webcamRef.current) {
+      toast("Camera is not found. Please refresh.");
+    }
+
+    if (mediaRecorderRef.current?.state == "recording") {
+      // check if recording
+      // then stop recording
+      // and save to downloads
+      mediaRecorderRef.current.requestData();
+      clearTimeout(stopTimeout);
+      mediaRecorderRef.current.stop();
+      toast("Recording saved to downloads");
+    } else {
+      // if not recording
+      // start recording
+      startRecording(false);
+    }
+  }
+
+  function startRecording(doBeep: boolean) {
+    if (webcamRef.current && mediaRecorderRef.current?.state !== "recording") {
+      mediaRecorderRef.current?.start();
+      doBeep && beep(volume);
+
+      stopTimeout = setTimeout(() => {
+        if (mediaRecorderRef.current?.state === "recording") {
+          mediaRecorderRef.current.requestData();
+          mediaRecorderRef.current.stop();
+        }
+      }, 30000);
+    }
   }
 
   function toggleAutoRecord() {
-    if (autoRecordEnable) {
-      setautoRecordEnable(false);
-      // show toast to user to notify te change
-      toast("Autorecord Disable");
+    if (autoRecordEnabled) {
+      setAutoRecordEnabled(false);
+      toast("Autorecord disabled");
+      // show toast to user to notify the change
     } else {
-      setautoRecordEnable(true);
-      // show toast to user to notify te change
-      toast("Autorecord Enable");
+      setAutoRecordEnabled(true);
+      toast("Autorecord enabled");
+      // show toast
     }
   }
 
@@ -267,4 +403,46 @@ const Home = (props: Props) => {
   }
 };
 
-export default Home;
+export default HomePage;
+
+function resizeCanvas(
+  canvasRef: React.RefObject<HTMLCanvasElement>,
+  webcamRef: React.RefObject<Webcam>
+) {
+  const canvas = canvasRef.current;
+  const video = webcamRef.current?.video;
+
+  if (canvas && video) {
+    const { videoWidth, videoHeight } = video;
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
+  }
+}
+
+function formatDate(d: Date) {
+  const formattedDate =
+    [
+      (d.getMonth() + 1).toString().padStart(2, "0"),
+      d.getDate().toString().padStart(2, "0"),
+      d.getFullYear(),
+    ].join("-") +
+    " " +
+    [
+      d.getHours().toString().padStart(2, "0"),
+      d.getMinutes().toString().padStart(2, "0"),
+      d.getSeconds().toString().padStart(2, "0"),
+    ].join("-");
+  return formattedDate;
+}
+
+function base64toBlob(base64Data: any) {
+  const byteCharacters = atob(base64Data.split(",")[1]);
+  const arrayBuffer = new ArrayBuffer(byteCharacters.length);
+  const byteArray = new Uint8Array(arrayBuffer);
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteArray[i] = byteCharacters.charCodeAt(i);
+  }
+
+  return new Blob([arrayBuffer], { type: "image/png" }); // Specify the image type here
+}
