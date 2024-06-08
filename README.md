@@ -50,9 +50,9 @@ Our web application is designed to significantly enhance your security by detect
 
 Before setting up a Next.js project, ensure you have the following software installed on your machine:
 
-- [Node.js]()
-- [npm]() or [yarn]() (npm is included with Node.js)
-- [git]()
+- [Node.js](https://nodejs.org/en)
+- [npm](https://nodejs.org/en) or [yarn](https://classic.yarnpkg.com/lang/en/docs/cli/install/) (npm is included with Node.js)
+- [git](https://www.git-scm.com/download/win)
 
 You can verify the installation by running:
 
@@ -149,7 +149,9 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ### Acknowledgements
 
-- []()
+- [Tensorflow](https://www.tensorflow.org/js/tutorials)
+- [Wikipedia](https://en.wikipedia.org/wiki/Object_detection)
+- [Next Js](https://nextjs.org/learn)
 
 ### Contact
 
