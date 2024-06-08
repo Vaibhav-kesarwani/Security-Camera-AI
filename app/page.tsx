@@ -273,14 +273,14 @@ const HomePage = (props: Props) => {
 
   function toggleAutoRecord() {
     if (autoRecordEnabled) {
+      // show toast to user to notify the change
       setAutoRecordEnabled(false);
       toast('Autorecord disabled')
-      // show toast to user to notify the change
 
     } else {
+      // show toast
       setAutoRecordEnabled(true);
       toast('Autorecord enabled')
-      // show toast
     }
 
   }
