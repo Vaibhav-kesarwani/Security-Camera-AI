@@ -26,11 +26,11 @@ export function drawOnCanvas(
 
       // text styling
       ctx.font = "12px Courier New";
-      ctx.fillStyle = "black";
+      ctx.fillStyle = 'black'
       ctx.globalAlpha = 1;
       mirrored
-        ? ctx.fillText(name, ctx.canvas.width - x - width + 10, y + 20)
-        : ctx.fillText(name, x + 10, y + 20);
+        ? ctx.fillText(name, ctx.canvas.width - x -width + 10, y + 20)
+        : ctx.fillText(name, x + 10 , y + 20);
     }
   });
 }
