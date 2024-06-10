@@ -16,6 +16,10 @@ Our web application is designed to significantly enhance your security by detect
 
 - **Secure Storage:** Recordings are securely stored in your file system, ensuring your data is protected from unauthorized access. The app employs encryption and secure protocols to safeguard your recordings while they reside on your device.
 
+## Demo: 
+
+[Security-Camer-AI.webm](https://github.com/Vaibhav-kesarwani/Security-Camera-AI/assets/116189379/45231ad5-9779-4fae-ad95-824afcbfccad)
+
 ## How It Works:
 
 - **Setup:** Begin by open the [Web App](security-camera-ai.vercel.app) on your computer. Position your camera to monitor the desired area, such as entry points, hallways, or any other vulnerable spots.
