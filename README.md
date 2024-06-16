@@ -2,7 +2,7 @@
 
 ## About the project:
 
-Our web application is designed to significantly enhance your security by detecting unauthorized access in real-time. Whether it’s safeguarding your home or office, this app ensures that you are promptly alerted to any potential intruders, providing you with the peace of mind that your property is protected around the clock.
+Our web application is designed to significantly enhance your security by detecting unauthorized access in real-time. Whether it’s safeguarding your home or office, this web app ensures that you are promptly alerted to any potential intruders, providing you with the peace of mind that your property is protected around the clock.
 
 ## Key Features:
 
