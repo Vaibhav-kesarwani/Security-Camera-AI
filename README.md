@@ -1,4 +1,4 @@
-# 👋 Welcome to the "Security Camera AI Web App" Repository!
+ # 👋 Welcome to the "Security Camera AI Web App" Repository! 
 
 ## About the project:
 
