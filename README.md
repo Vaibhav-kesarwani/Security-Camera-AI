@@ -93,7 +93,6 @@ After cloning the project, you will see a directory structure similar to this:
 
 ```lua
 Security-Camera-AI/
-├── .next/
 ├── app/
 |   |── favicon.ico
 │   └── globals.css
