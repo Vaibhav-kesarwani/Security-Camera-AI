@@ -140,7 +140,7 @@ This command starts the server at `http://localhost:3000` or `http://localhost:3
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
 
-- Fork the repository
+- Fork the repository & Star the repository
 - Create a new branch (git checkout -b feature)
 - Make your changes
 - Commit your changes (git commit -am 'Add new feature')
